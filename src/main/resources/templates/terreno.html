@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/site :: head}"></head><body data-p="terreno">
+<div th:replace="~{fragments/site :: header}"></div>
+<main><div class="pghead"><div class="wrap"><h1>Terreno + construção</h1><p id="sub">Do terreno à sua casa</p></div></div>
+<div class="wrap pg" id="pg"><div class="two"><div><h2>Seu terreno, a sua casa</h2><p th:text="${inst.terrenoConstrucao.texto}" data-no-t></p><a class="go" style="display:inline-block" th:href="${view.wa(view.terrainPhone(inst), 'Olá! Tenho um terreno e quero conversar sobre construção.')}" target="_blank" rel="noopener">Falar no WhatsApp</a></div>
+  <form class="fm" id="fm" th:attr="data-phone=${view.terrainPhone(inst)}"><h2>Qual Terreno Ideal para Realizar seu Sonho</h2><div><label for="n">Nome</label><input id="n" required></div><div><label for="lo">Algum Endereço em Específico?</label><input id="lo" required></div><div><label for="m">Mensagem</label><textarea id="m" rows="4"></textarea></div><button class="go" type="submit">Enviar pelo WhatsApp</button></form>
+</div></div></main>
+<div th:replace="~{fragments/site :: footer}"></div><th:block th:replace="~{fragments/site :: scripts}"/>
+</body></html>

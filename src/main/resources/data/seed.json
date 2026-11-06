@@ -1,0 +1,141 @@
+{
+  "versao": "2026-10-31-dados-reais",
+  "inst": {
+    "nome": "André Pacheco Negócios Imobiliários",
+    "cnpj": "62.537.875/0001-11",
+    "instagram": "@imobiliaria.andrepacheco",
+    "whatsapp": "5519992248572",
+    "endereco": "Rua XV de Novembro, 1137 – Centro – Capivari/SP",
+    "missao": "",
+    "bannerFundo": "",
+    "bannerEscuro": 55,
+    "visao": "A André Pacheco Negócios Imobiliários nasceu de um sonho: construir uma imobiliária que fosse além da venda de imóveis, ajudando pessoas a realizarem o sonho da casa própria e a construírem um futuro melhor.\n\nNossa história começou em 2022, quando o corretor André Pacheco iniciou sua trajetória no mercado imobiliário com a venda de terrenos. Desde então, evoluímos, adquirimos experiência e ampliamos nossa atuação, especialmente na área de construção, buscando sempre aprimorar nossos serviços e entregar cada projeto com excelência, responsabilidade e profissionalismo.\n\nHoje, ao lado de uma equipe comprometida, atuamos na venda de imóveis novos, usados e terrenos, além de oferecer soluções para quem deseja construir por meio do financiamento Caixa de terreno e construção.\n\nMais do que negociar imóveis, queremos fazer parte da história de cada cliente, oferecendo um atendimento próximo, transparente e dedicado. Acreditamos que cada conquista começa com um sonho e que nosso papel é transformar esse sonho em realidade, com confiança, qualidade e compromisso em cada etapa do caminho.",
+    "valoresTexto": "Nosso trabalho é guiado pela honestidade, transparência, profissionalismo e compromisso com cada cliente. Valorizamos a confiança construída em cada negociação, a qualidade em cada entrega e a busca constante por evolução.\n\nAcreditamos que um bom negócio não termina na assinatura de um contrato: ele se completa quando entregamos aquilo que prometemos e contribuímos para a realização de um sonho.",
+    "valores": [
+      "Honestidade",
+      "Transparência",
+      "Profissionalismo",
+      "Compromisso"
+    ],
+    "terrenoConstrucao": {
+      "texto": "Quer construir? Oferecemos soluções para quem deseja construir por meio do financiamento Caixa de terreno e construção.",
+      "whatsapp": "5519992248572"
+    }
+  },
+  "corretores": [
+    {
+      "id": 1,
+      "nome": "Daniel Andrade",
+      "creci": "292279-F",
+      "whatsapp": "5519989661501",
+      "foto": ""
+    },
+    {
+      "id": 2,
+      "nome": "Rodrigo Mesquita",
+      "creci": "328134-F",
+      "whatsapp": "5519992172522",
+      "foto": ""
+    },
+    {
+      "id": 3,
+      "nome": "André Pacheco",
+      "creci": "54761-J",
+      "whatsapp": "5519992248572",
+      "foto": ""
+    }
+  ],
+  "imoveis": [
+    {
+      "id": 101,
+      "aquisicao": "compra",
+      "tipo": "casa",
+      "valor": 630000,
+      "localizacao": {
+        "cidade": "Capivari",
+        "bairro": "",
+        "endereco": ""
+      },
+      "fotos": [
+        "/img/imoveis/101-01.jpg",
+        "/img/imoveis/101-02.jpg",
+        "/img/imoveis/101-03.jpg",
+        "/img/imoveis/101-04.jpg",
+        "/img/imoveis/101-05.jpg",
+        "/img/imoveis/101-06.jpg",
+        "/img/imoveis/101-07.jpg",
+        "/img/imoveis/101-08.jpg",
+        "/img/imoveis/101-09.jpg",
+        "/img/imoveis/101-10.jpg",
+        "/img/imoveis/101-11.jpg",
+        "/img/imoveis/101-12.jpg",
+        "/img/imoveis/101-13.jpg",
+        "/img/imoveis/101-14.jpg",
+        "/img/imoveis/101-15.jpg",
+        "/img/imoveis/101-16.jpg",
+        "/img/imoveis/101-17.jpg",
+        "/img/imoveis/101-18.jpg",
+        "/img/imoveis/101-19.jpg",
+        "/img/imoveis/101-20.jpg",
+        "/img/imoveis/101-21.jpg",
+        "/img/imoveis/101-22.jpg",
+        "/img/imoveis/101-23.jpg",
+        "/img/imoveis/101-24.jpg",
+        "/img/imoveis/101-25.jpg",
+        "/img/imoveis/101-26.jpg"
+      ],
+      "corretor": {
+        "id": 1,
+        "nome": "Daniel Andrade"
+      },
+      "quartos": 3,
+      "areaM2": 260,
+      "descricao": "Terreno de 500 m² e 260 m² de área construída. 3 dormitórios, sala, cozinha externa com área gourmet, piscina de 8 x 3 metros e amplo espaço externo para aproveitar com a família.\n\nValor e condições: R$ 630.000 à vista ou R$ 700.000 na troca. Aceita imóvel de até R$ 250.000 como parte do pagamento. Não aceita financiamento bancário. O imóvel aceito na troca está sujeito à avaliação e à aprovação do proprietário."
+    },
+    {
+      "id": 102,
+      "aquisicao": "compra",
+      "tipo": "casa",
+      "valor": 0,
+      "localizacao": {
+        "cidade": "Capivari",
+        "bairro": "",
+        "endereco": ""
+      },
+      "fotos": [
+        "/img/imoveis/102-01.jpg",
+        "/img/imoveis/102-02.jpg",
+        "/img/imoveis/102-03.jpg",
+        "/img/imoveis/102-04.jpg",
+        "/img/imoveis/102-05.jpg",
+        "/img/imoveis/102-06.jpg",
+        "/img/imoveis/102-07.jpg",
+        "/img/imoveis/102-08.jpg",
+        "/img/imoveis/102-09.jpg",
+        "/img/imoveis/102-10.jpg",
+        "/img/imoveis/102-11.jpg",
+        "/img/imoveis/102-12.jpg",
+        "/img/imoveis/102-13.jpg",
+        "/img/imoveis/102-14.jpg",
+        "/img/imoveis/102-15.jpg",
+        "/img/imoveis/102-16.jpg",
+        "/img/imoveis/102-17.jpg",
+        "/img/imoveis/102-18.jpg",
+        "/img/imoveis/102-19.jpg",
+        "/img/imoveis/102-20.jpg",
+        "/img/imoveis/102-21.jpg",
+        "/img/imoveis/102-22.jpg",
+        "/img/imoveis/102-23.jpg",
+        "/img/imoveis/102-24.jpg",
+        "/img/imoveis/102-25.jpg"
+      ],
+      "corretor": {
+        "id": 3,
+        "nome": "André Pacheco"
+      },
+      "quartos": 3,
+      "vagas": 2,
+      "descricao": "3 dormitórios, sendo 2 suítes. Sala com sanca de gesso e iluminação sofisticada. Área gourmet com churrasqueira. WC social. Cozinha com pia e balcão em L. Área de luz com fechamento em Blindex. Portas da sala e da cozinha em Blindex. Garagem coberta para até 2 carros. Portão eletrônico.\n\nLocalização privilegiada: ao lado do Pesqueiro Panserine e em frente à área verde, próxima a Pio XII, Academia Sky Fit, Covabra, Pantanal Pneus, Placar, Steak House, Shark Pro Suplementos e diversas outras opções de comércio e serviços."
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"><body>
+<head th:fragment="head">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${#strings.isEmpty(titulo) ? inst.nome : titulo + ' | ' + inst.nome}">André Pacheco Negócios Imobiliários</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<svg th:fragment="house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5M5.5 10v9.5h13V10M10 19.5v-5h4v5"/></svg>
+<svg th:fragment="instagram" viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm0 2a3 3 0 00-3 3v10a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H7zm5 3.5a4.5 4.5 0 110 9 4.5 4.5 0 010-9zm0 2a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM17.5 6a1 1 0 110 2 1 1 0 010-2z"/></svg>
+<svg th:fragment="whatsapp" viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.1-1.3A10 10 0 1012 2zm0 2a8 8 0 11-4.2 14.8l-.3-.2-2.5.6.7-2.4-.2-.3A8 8 0 0112 4zM9 7.5c-.3 0-.7.2-.9.6-.3.5-.6 1.3 0 2.4 1 1.9 2.5 3.3 4.5 4.2 1 .4 1.9.3 2.4-.2.3-.3.5-.8.4-1l-1.7-.9c-.2-.1-.4 0-.6.2l-.5.6c-2-.9-2.6-1.7-3.2-3l.6-.5c.2-.1.2-.4.1-.6L9.9 8c-.1-.3-.4-.5-.9-.5z"/></svg>
+<th:block th:fragment="links">
+  <a href="/" th:classappend="${pagina == 'index'} ? 'on'">Início</a>
+  <a href="/imoveis" th:classappend="${pagina == 'imoveis'} ? 'on'">Imóveis</a>
+  <a href="/corretores" th:classappend="${pagina == 'corretores'} ? 'on'">Corretores</a>
+  <a href="/sobre" th:classappend="${pagina == 'sobre'} ? 'on'">Sobre</a>
+  <a href="/contato" th:classappend="${pagina == 'contato'} ? 'on'">Contato</a>
+  <a href="/terreno" th:classappend="${pagina == 'terreno'} ? 'on'">Terreno + construção</a>
+</th:block>
+<div id="hdr" th:fragment="header">
+  <header class="top"><div class="wrap t1"><a class="logo" href="/"><img src="/img/logo.png" th:alt="${inst.nome}"></a>
+    <div class="soc"><div class="lang"><button type="button" data-l="pt" class="on" aria-label="PT">PT</button><button type="button" data-l="en" aria-label="EN">EN</button><button type="button" data-l="es" aria-label="ES">ES</button></div>
+      <a th:href="${view.instagram(inst.instagram)}" target="_blank" rel="noopener" aria-label="Instagram"><svg th:replace="~{fragments/site :: instagram}"></svg></a>
+      <a th:href="${view.wa(inst.whatsapp)}" target="_blank" rel="noopener" aria-label="WhatsApp"><svg th:replace="~{fragments/site :: whatsapp}"></svg></a>
+    </div></div><nav class="wrap nav"><th:block th:replace="~{fragments/site :: links}"/></nav>
+  </header>
+</div>
+<th:block th:fragment="map(address)">
+  <a class="end" th:href="${view.map(address, 'google')}" target="_blank" rel="noopener" th:text="${address}"></a><span class="gps">Abrir no <a th:href="${view.map(address, 'google')}" target="_blank" rel="noopener">Google Maps</a> · <a th:href="${view.map(address, 'waze')}" target="_blank" rel="noopener">Waze</a> · <a th:href="${view.map(address, 'apple')}" target="_blank" rel="noopener">Apple Maps</a></span>
+</th:block>
+<div id="ftr" th:fragment="footer"><div class="ban"></div><footer><div class="wrap fg">
+  <div><img src="/img/logo.png" th:alt="${inst.nome}"></div>
+  <div><h4 th:text="${inst.nome}"></h4><p>CNPJ - <th:block th:text="${inst.cnpj}"/><br><th:block th:replace="~{fragments/site :: map(${inst.endereco})}"/></p><p><a th:href="${view.wa(inst.whatsapp)}" target="_blank" rel="noopener" th:text="${view.phone(inst.whatsapp)}"></a></p></div>
+  <div><h4>Menu</h4><th:block th:replace="~{fragments/site :: links}"/></div>
+  <div><h4>Social</h4><a th:href="${view.instagram(inst.instagram)}" target="_blank" rel="noopener">Instagram</a><a th:href="${view.wa(inst.whatsapp)}" target="_blank" rel="noopener">WhatsApp</a></div>
+  </div><p class="wrap cp" th:text="${'© ' + ano + ' ' + inst.nome + ' - Todos os direitos reservados'}"></p></footer>
+  <a class="wfl" th:href="${view.wa(inst.whatsapp, 'Olá! Vim pelo site.')}" target="_blank" rel="noopener" aria-label="WhatsApp"><svg th:replace="~{fragments/site :: whatsapp}"/></a>
+  <div class="bub" id="bub">Olá! Estamos disponíveis para te ajudar.<button type="button" aria-label="Fechar">×</button></div>
+</div>
+<th:block th:fragment="tri(resumo)">
+  <div th:if="${!#strings.isEmpty(inst.missao)}"><h3>Missão</h3><p th:each="p : ${view.paragraphs(inst.missao)}" th:text="${p}" data-no-t></p></div>
+  <div th:if="${!#lists.isEmpty(view.paragraphs(inst.visao))}" th:with="paragraphs=${view.paragraphs(inst.visao)}"><h3>Visão</h3><th:block th:each="p, stat : ${paragraphs}"><p th:if="${!resumo || stat.first}" th:text="${p}" data-no-t></p></th:block><a th:if="${resumo &amp;&amp; #lists.size(paragraphs) > 1}" class="bt" href="/sobre">Leia mais</a></div>
+  <div th:if="${!#lists.isEmpty(inst.valores) || !#lists.isEmpty(view.paragraphs(inst.valoresTexto))}"><h3>Valores</h3><th:block th:if="${!resumo}"><p th:each="p : ${view.paragraphs(inst.valoresTexto)}" th:text="${p}" data-no-t></p></th:block><div class="chp"><span th:each="valor : ${inst.valores}" th:text="${valor}" data-no-t></span></div></div>
+</th:block>
+<article class="card" th:fragment="card(x)" th:with="al=${x.aquisicao == 'aluguel'}, image=${#lists.isEmpty(x.fotos) ? '' : view.image(x.fotos[0])}">
+  <a class="ph" th:href="@{/imovel(id=${x.id})}"><img th:if="${!#strings.isEmpty(image)}" th:src="${image}" alt="" loading="lazy"><th:block th:if="${#strings.isEmpty(image)}"><svg th:replace="~{fragments/site :: house}"/></th:block><span class="tag" th:text="${al ? 'Aluguel' : 'Venda'}"></span></a>
+  <div class="cb"><h3 th:text="${view.cap(x.tipo)}"></h3><p class="lc" th:text="${view.location(x)}" data-no-t></p><p class="pr"><th:block th:text="${view.brl(x.valor)}"/><small th:if="${al &amp;&amp; x.valor != null &amp;&amp; x.valor > 0}"> /mês</small></p><p class="co" th:if="${x.corretor != null}" th:text="${'Corretor: ' + x.corretor.nome}"></p><a class="bt" th:href="@{/imovel(id=${x.id})}">Ver detalhes</a></div>
+</article>
+<article class="card cor" th:fragment="corretor(c)"><div class="av"><img th:if="${!#strings.isEmpty(view.image(c.foto))}" th:src="${view.image(c.foto)}" alt=""><th:block th:if="${#strings.isEmpty(view.image(c.foto))}" th:text="${view.initial(c.nome)}"/></div><h3 th:text="${c.nome}" data-no-t></h3><small th:text="${'CRECI ' + c.creci}"></small><a class="bt" th:href="${view.wa(c.whatsapp, 'Olá, ' + c.nome + '! Vim pelo site.')}" target="_blank" rel="noopener">WhatsApp</a></article>
+<th:block th:fragment="scripts">
+  <script th:inline="javascript">window.AP_DATA = {inst: /*[[${chatEmpresa}]]*/ {}, imoveis: /*[[${chatImoveis}]]*/ []};</script>
+  <script src="/js/i18n.js"></script><script src="/js/app.js"></script><script src="/js/chat.js"></script>
+</th:block>
+</body></html>

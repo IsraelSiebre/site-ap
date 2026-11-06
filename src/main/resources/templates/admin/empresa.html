@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/layout :: head}"></head>
+<body class="adm">
+<div id="app"><div class="shell">
+  <aside th:replace="~{admin/layout :: sidebar}"></aside>
+  <main id="mn">
+    <div class="tb"><h1>Dados da empresa</h1></div>
+    <form id="fe" class="card2" method="post" enctype="multipart/form-data" th:object="${empresa}" th:action="@{/admin/empresa}">
+      <div th:replace="~{admin/layout :: errors}"></div>
+      <div class="fg2">
+        <div><label for="nome">Nome</label><input id="nome" th:field="*{nome}" required></div><div><label for="cnpj">CNPJ</label><input id="cnpj" th:field="*{cnpj}"></div>
+        <div><label for="instagram">Instagram</label><input id="instagram" th:field="*{instagram}"></div><div><label for="whatsapp">WhatsApp (com DDI e DDD)</label><input id="whatsapp" th:field="*{whatsapp}"></div>
+        <div class="w2"><label for="endereco">Endereço</label><input id="endereco" th:field="*{endereco}"></div>
+        <div class="w2"><label for="missao">Missão (opcional)</label><textarea id="missao" th:field="*{missao}" rows="3"></textarea></div>
+        <div class="w2"><label for="visao">Visão / nossa história (separe os parágrafos com uma linha em branco)</label><textarea id="visao" th:field="*{visao}" rows="8"></textarea></div>
+        <div class="w2"><label for="valores">Valores (um por linha)</label><textarea id="valores" name="listaValores" rows="4" th:text="${listaValores}"></textarea></div>
+        <div class="w2"><label for="valoresTexto">Texto sobre os valores (opcional)</label><textarea id="valoresTexto" th:field="*{valoresTexto}" rows="4"></textarea></div>
+        <div class="w2"><label for="tTexto">Terreno + construção: texto</label><textarea id="tTexto" th:field="*{terrenoConstrucao.texto}" rows="2"></textarea></div>
+        <div class="w2"><label for="tWhats">Terreno + construção: WhatsApp</label><input id="tWhats" th:field="*{terrenoConstrucao.whatsapp}"></div>
+        <div class="w2"><label for="bf">Fundo do banner da página inicial (só o fundo muda; textos e botões continuam iguais)</label>
+          <div class="bpv" id="bpv" th:attr="data-background=*{bannerFundo}"><div id="bov"></div><span>Encontre o seu lar perfeito</span></div>
+          <input type="file" id="bf" name="novoBanner" accept="image/jpeg,image/png,image/webp">
+          <input type="hidden" name="removerBanner" id="removerBanner" value="false">
+          <label for="be" style="margin-top:12px">Escurecimento da foto: <b id="bv" th:text="*{bannerEscuro}"></b>% (aumente se o texto ficar difícil de ler)</label><input type="range" name="bannerEscuro" id="be" min="0" max="85" th:value="*{bannerEscuro}">
+          <button type="button" class="lk" id="brm">Remover imagem e voltar ao fundo padrão</button>
+        </div>
+      </div>
+      <button class="go" type="submit">Salvar alterações</button>
+    </form>
+  </main>
+</div></div>
+<th:block th:replace="~{admin/layout :: messages}"></th:block>
+</body>
+</html>

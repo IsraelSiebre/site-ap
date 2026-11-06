@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/site :: head}"></head><body>
+<div th:replace="~{fragments/site :: header}"></div>
+<main>
+<div class="wrap" id="det">
+  <div class="nf" th:if="${imovel == null}"><h2>Imóvel não encontrado</h2><p>Ele pode ter sido vendido, alugado ou removido.</p><a class="go" href="/imoveis">Ver todos os imóveis</a></div>
+  <th:block th:if="${imovel != null}" th:with="x=${imovel}, al=${x.aquisicao == 'aluguel'}, cr=${x.corretor}">
+    <div class="dthead"><div><h1 th:text="${view.title(x)}"></h1><p th:text="${view.location(x)}" data-no-t></p></div><div class="acts"><a class="bn wa" id="share" href="https://wa.me/" target="_blank" rel="noopener">Compartilhar no WhatsApp</a></div></div>
+    <div class="gal">
+      <button class="gi" th:each="k : ${#numbers.sequence(0, 2)}" th:classappend="${k == 0} ? 'big'" th:attr="data-i=${k}" type="button">
+        <img th:if="${#lists.size(fotos) > k}" th:src="${fotos[k]}" alt=""><th:block th:if="${#lists.size(fotos) &lt;= k}"><svg th:replace="~{fragments/site :: house}"/></th:block>
+        <th:block th:if="${k == 0}"><span class="tag" th:text="${al ? 'Aluguel' : 'Venda'}"></span><span class="cnt2" th:if="${!#lists.isEmpty(fotos)}" th:text="${#lists.size(fotos) + (#lists.size(fotos) == 1 ? ' foto' : ' fotos')}"></span></th:block>
+        <span class="mf" th:if="${k == 2 &amp;&amp; #lists.size(fotos) > 3}">Mais fotos</span>
+      </button>
+    </div>
+    <div class="sum"><div><small th:text="${al ? 'Aluguel' : 'Venda'}"></small><b class="pr"><th:block th:text="${view.brl(x.valor)}"/><small th:if="${al &amp;&amp; x.valor != null &amp;&amp; x.valor > 0}"> /mês</small></b></div><div><small>Tipo</small><b th:text="${view.cap(x.tipo)}"></b></div><div><small>Localização</small><b th:text="${#strings.isEmpty(view.location(x)) ? '—' : view.location(x)}" data-no-t></b></div></div>
+    <div class="cols"><div><h2>Ficha do imóvel</h2><div class="fic"><div th:each="row : ${ficha}"><span th:text="${row.key}"></span><b th:text="${row.value}"></b></div></div>
+      <th:block th:if="${!#strings.isEmpty(x.descricao)}"><h2>Descrição</h2><p class="dsc" data-no-t><th:block th:each="line, stat : ${view.lines(x.descricao)}"><th:block th:text="${line}"/><br th:unless="${stat.last}"></th:block></p></th:block></div>
+      <aside class="side"><div class="sc"><small th:text="${al ? 'Aluguel' : 'Venda'}"></small><p class="pr"><th:block th:text="${view.brl(x.valor)}"/><small th:if="${al &amp;&amp; x.valor != null &amp;&amp; x.valor > 0}"> /mês</small></p>
+        <th:block th:if="${cr != null}"><div class="av"><img th:if="${!#strings.isEmpty(view.image(cr.foto))}" th:src="${view.image(cr.foto)}" alt=""><th:block th:if="${#strings.isEmpty(view.image(cr.foto))}" th:text="${view.initial(cr.nome)}"/></div><h3 th:text="${cr.nome}" data-no-t></h3><small th:if="${!#strings.isEmpty(cr.creci)}" th:text="${'CRECI ' + cr.creci}"></small></th:block>
+        <small th:if="${cr == null}" th:text="${view.phone(inst.whatsapp)}"></small><a class="go wa" data-property-contact th:href="${view.wa(foneImovel, 'Olá! Tenho interesse neste imóvel: ' + view.title(x) + ' (' + view.location(x) + ').')}" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      </div></aside>
+    </div>
+  </th:block>
+</div>
+<section class="rel" id="rel" th:if="${imovel != null &amp;&amp; !#lists.isEmpty(semelhantes)}"><div class="wrap"><h2 class="t">Imóveis semelhantes</h2><div class="grid" id="relg"><th:block th:each="x : ${semelhantes}"><article th:replace="~{fragments/site :: card(${x})}"></article></th:block></div></div></section>
+</main>
+<div class="lb" id="lb" hidden><button class="x" aria-label="Fechar">×</button><button class="pv" aria-label="Anterior">‹</button><img alt=""><button class="nx" aria-label="Próxima">›</button></div>
+<script th:if="${imovel != null}" th:inline="javascript">window.AP_GALLERY = /*[[${fotos}]]*/ [];</script>
+<div th:replace="~{fragments/site :: footer}"></div><th:block th:replace="~{fragments/site :: scripts}"/>
+</body></html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Página indisponível | André Pacheco Imóveis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<main class="wrap">
+  <div class="nf">
+    <h1 th:text="${status == 404 ? 'Página não encontrada' : 'Não foi possível abrir esta página'}">Página indisponível</h1>
+    <p th:text="${status == 404 ? 'O endereço pode ter mudado ou o conteúdo foi removido.' : 'Tente novamente em instantes.'}"></p>
+    <a class="go" href="/">Voltar ao início</a>
+  </div>
+</main>
+</body>
+</html>

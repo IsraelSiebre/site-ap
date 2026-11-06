@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+  <title>Painel administrativo | André Pacheco Negócios Imobiliários</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/style.css}"><link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<aside th:fragment="sidebar">
+  <div class="bd">André Pacheco<small>Painel</small></div>
+  <nav>
+    <form th:action="@{/admin/imoveis}" method="get" style="display:contents"><button type="submit" th:class="${tab == 'im'} ? 'on' : ''">Imóveis</button></form>
+    <form th:action="@{/admin/corretores}" method="get" style="display:contents"><button type="submit" th:class="${tab == 'co'} ? 'on' : ''">Corretores</button></form>
+    <form th:action="@{/admin/empresa}" method="get" style="display:contents"><button type="submit" th:class="${tab == 'em'} ? 'on' : ''">Dados da empresa</button></form>
+  </nav>
+  <a th:href="@{/}" target="_blank" rel="noopener">Ver o site</a>
+  <form id="logout" method="post" th:action="@{/admin/logout}" hidden></form>
+  <button id="out" type="submit" form="logout">Sair</button>
+</aside>
+<th:block th:fragment="messages">
+  <div id="toast" role="status" th:class="${erro != null} ? 'on ruim' : (${mensagem != null} ? 'on' : '')" th:text="${erro != null ? erro : mensagem}"></div>
+  <script th:src="@{/js/admin.js}" defer></script>
+</th:block>
+<div th:fragment="errors" th:if="${#fields.hasAnyErrors()}" class="err" role="alert">
+  <p th:each="e : ${#fields.allErrors()}" th:text="${e}"></p>
+  <p>Confira os campos e selecione novamente os arquivos antes de salvar.</p>
+</div>
+</body>
+</html>

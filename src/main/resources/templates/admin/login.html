@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/layout :: head}"></head>
+<body class="adm">
+<div id="app">
+  <form class="lg" id="lg" method="post" th:action="@{/admin/login}">
+    <h1>Painel administrativo</h1><p th:text="${empresaNome}">André Pacheco Negócios Imobiliários</p>
+    <label for="u">Usuário</label><input id="u" name="usuario" required autocomplete="username">
+    <label for="s">Senha</label><input id="s" name="senha" type="password" required autocomplete="current-password">
+    <button class="go" type="submit">Entrar</button>
+  </form>
+</div>
+<div id="toast" role="alert" th:class="${param.erro != null} ? 'on ruim' : ''" th:text="${param.erro != null} ? 'Usuário ou senha inválidos.' : ''"></div>
+<script th:src="@{/js/admin.js}" defer></script>
+</body>
+</html>

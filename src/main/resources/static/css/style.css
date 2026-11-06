@@ -1,0 +1,207 @@
+/* =====================================================================
+   style.css — VISUAL DE TODO O SITE PÚBLICO E DO CHATBOT
+   =====================================================================
+   O painel admin usa este arquivo (cores, botões, campos) e, por cima,
+   o admin/admin.css.
+
+   COMO ALTERAR O VISUAL SEM MEXER EM CÓDIGO:
+     - Cores:  mude as variáveis do bloco :root logo abaixo (1 lugar só).
+     - Fonte:  é a "Quicksand" do Google Fonts (link no <head> de cada HTML);
+               para trocar, mude o link e a propriedade font-family de "body".
+     - Foto do banner: descomente --hero-img no :root e aponte para o arquivo.
+     - Largura do conteúdo: .wrap (max-width).
+
+   ÍNDICE (cada bloco fica sob um título com traços):
+     1. Cores e base            7. Detalhe do imóvel
+     2. Topo e menu             8. Páginas institucionais
+     3. Banner da home          9. Chatbot
+     4. Busca                  10. Responsivo e impressão (@media, ao fim de
+     5. Seções e cards             cada bloco)
+     6. Rodapé e WhatsApp / Listagem
+
+   Cada linha abaixo agrupa regras de um mesmo elemento; o comentário acima
+   dela diz quem usa aquela classe (o JS que gera o HTML está indicado).
+   ===================================================================== */
+
+:root{
+  --ouro:#c9971c;  /* cor de destaque: botões, traços, link ativo, ícones */
+  --ouro2:#a87a0f;  /* dourado escuro: texto de botão vazado e passar o mouse */
+  --preto:#0b0b0b;  /* fundo do topo, rodapé e cabeçalho do chat */
+  --grafite:#1c1c1c;  /* faixa "Terreno + construção" e avatares */
+  --cinza:#f5f5f5;  /* fundo do cartão de busca e dos formulários */
+  --linha:#e3e3e3;  /* cor das bordas e divisórias */
+  --texto:#222;  /* cor do texto principal */
+  --mudo:#6b6b6b;  /* cor do texto secundário (legendas, localização) */
+  /* --hero-img: url("../img/banner.jpg");   <- descomente para usar uma FOTO no banner da home.
+     Crie a pasta "img" na raiz do projeto e coloque a foto lá. O "../" é porque o caminho
+     é contado a partir da pasta css. */
+}
+/* ---------- 1. CORES E BASE ---------- */
+/* Regras que valem para o site inteiro: tamanho dos elementos, fonte, links. */
+*{box-sizing:border-box;margin:0}
+/* Fonte do site (carregada pelo Google Fonts em cada HTML) e cores padrão do texto/fundo. */
+body{font-family:Quicksand,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--texto);background:#fff;line-height:1.5}
+a{color:inherit;text-decoration:none}
+/* .wrap = área central do conteúdo: largura máxima e margens laterais. Usado em todas as páginas. */
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+/* Garante que elementos com o atributo hidden fiquem escondidos (chat, caixas, galeria). */
+[hidden]{display:none!important}
+/* ---------- 2. TOPO E MENU (HTML criado por layout() em js/app.js) ---------- */
+.top{background:var(--preto);color:#fff;position:relative;z-index:10}
+/* Na home o topo FLUTUA sobre o banner (degradê escuro); nas outras páginas é preto sólido (.top). */
+.home .top{position:absolute;inset:0 0 auto;background:linear-gradient(#000b,#0000)}
+/* .t1 = linha de cima do topo: logo à esquerda, ícones à direita, linha tracejada embaixo. */
+.t1{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px dashed #ffffff55}
+.logo img{height:72px;width:auto;display:block}.fg img{width:230px;height:auto}.logo{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.02em}.logo svg{width:56px;height:56px}
+.soc{display:flex;gap:8px}.soc a{width:34px;height:34px;display:grid;place-items:center;background:#333;border-radius:3px}.soc a:hover{background:var(--ouro)}.soc svg{width:17px;height:17px;fill:#fff}
+/* .nav = menu horizontal (rola de lado no celular). A página atual recebe a classe "on" (dourada). */
+.nav{display:flex;gap:28px;padding:14px 20px;font-weight:500;font-size:.95rem;overflow-x:auto;white-space:nowrap}
+.nav a:hover,.nav a.on{color:var(--ouro)}
+/* ---------- 3. BANNER DA HOME (index.html) ---------- */
+/* Fundo do banner = foto (--hero-img, se definida) por cima de brilho dourado e degradê escuro. min-height controla a altura. */
+.hero{position:relative;min-height:560px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center;color:#fff;padding:170px 20px 150px;background-image:var(--hero-img,none),radial-gradient(ellipse at 72% 28%,rgba(201,151,28,.3),transparent 55%),linear-gradient(160deg,#262626,#0b0b0b);background-size:cover;background-position:center}
+/* Triângulos decorativos translúcidos sobre o fundo. */
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.035) 40% 62%,transparent 62%),linear-gradient(65deg,transparent 55%,rgba(255,255,255,.03) 55% 80%,transparent 80%)}
+.hero>*{position:relative}
+.hero h1{font-weight:500;font-size:clamp(1.9rem,4vw,2.8rem)}
+/* .pills = botões translúcidos de Instagram e WhatsApp sob o título do banner. */
+.pills{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}.pills a{background:rgba(255,255,255,.14);padding:12px 22px;font-weight:500}.pills a:hover{background:var(--ouro)}
+/* ---------- 4. BUSCA ---------- */
+/* Cartão cinza do formulário (index.html e imoveis.html). A margem negativa em .busca faz ele sobrepor o banner. */
+.busca{position:relative;z-index:5;max-width:1040px;margin:-130px auto 0;background:var(--cinza);padding:24px 30px 26px;box-shadow:0 12px 34px #0003}
+.rf{display:flex;justify-content:flex-end;margin-bottom:8px}.rf button{background:none;border:0;font:inherit;cursor:pointer;color:var(--texto)}.rf button:hover{color:var(--ouro2)}
+/* Ícone de lupa em SVG (mesmo estilo dos ícones de Instagram e WhatsApp: preenchido, na cor do texto). */
+.rf button svg{width:17px;height:17px;fill:currentColor;vertical-align:-3px;margin-right:6px}
+/* .cmp = grade dos campos: 5 colunas + botão. (Na listagem vira 3 colunas; no celular, 1 ou 2.) */
+.cmp{display:grid;grid-template-columns:repeat(5,1fr) auto;gap:18px;align-items:end}
+#refBox{grid-column:1/-1}
+/* Campos de formulário de TODO o site (também no painel): rótulos, listas e caixas de texto. */
+label{display:block;font-weight:700;font-size:.9rem;margin-bottom:8px}
+select,input{width:100%;font:inherit;padding:12px;border:1px solid var(--linha);background:#fff;color:var(--texto)}
+select:focus,input:focus{outline:2px solid var(--ouro);border-color:transparent}
+/* .go = botão principal dourado (Pesquisar, Salvar, Falar no WhatsApp...). Variação .go.wa = verde. */
+.go{background:var(--ouro);color:#fff;border:0;padding:14px 34px;font:inherit;font-weight:600;cursor:pointer}.go:hover{background:var(--ouro2)}
+/* .ult = chips "Últimas pesquisas" (gerados por buscas() em js/app.js). */
+.ult{display:flex;gap:12px;align-items:center;margin-top:16px;color:var(--mudo);flex-wrap:wrap}.ult a{background:#f0dfbf;padding:5px 10px;font-size:.78rem;line-height:1.25;color:#000}.ult a small{display:block;opacity:.7}
+/* ---------- 5. SEÇÕES E CARDS ---------- */
+/* .s = espaçamento vertical de uma seção. .t = título de seção com traço dourado embaixo. */
+.s{padding:72px 0}
+.t{font-size:1.8rem;font-weight:700;margin-bottom:30px;text-align:center}
+.t::after{content:"";display:block;width:54px;height:3px;background:var(--ouro);margin:12px auto 0}
+/* .grid = grade responsiva de cards: quantas colunas couberem com no mínimo 290px cada. */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:26px}
+/* CARD DE IMÓVEL (gerado por card() em js/app.js): .card = caixa; .ph = área da foto; .ref e .tag = etiquetas sobre a foto. */
+.card{background:#fff;box-shadow:0 4px 20px #0001;transition:.25s}.card:hover{transform:translateY(-4px)}
+.ph{position:relative;display:grid;place-items:center;height:220px;background:linear-gradient(135deg,#e7e2d6,#cfc7b4);color:#a89c80;overflow:hidden}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.ph svg{width:64px;height:64px}
+.ref{position:absolute;left:12px;bottom:12px;background:#333c;color:#fff;font-size:.8rem;font-weight:600;padding:7px 11px;border-radius:4px}
+.tag{position:absolute;top:12px;left:12px;background:#000;color:#fff;font-size:.78rem;font-weight:600;padding:5px 12px}
+/* .cb = corpo do card: título (h3), localização (.lc), preço (.pr), corretor (.co) e botão (.bt). */
+.cb{padding:20px}.cb h3{font-size:1.25rem;font-weight:700}.lc{color:var(--mudo);font-size:.92rem}
+.pr{font-size:1.45rem;font-weight:700;margin:12px 0 4px;color:#3a2a05}.pr small{font-size:.8rem;font-weight:500;color:var(--mudo)}.co{font-size:.85rem;color:var(--mudo)}
+.bt{display:inline-block;margin-top:14px;border:1px solid var(--ouro);color:var(--ouro2);padding:9px 20px;font-weight:600;font-size:.9rem}.bt:hover{background:var(--ouro);color:#fff}
+/* .tri = três caixas Missão / Visão / Valores. .chp = etiquetas dos valores. */
+.tri{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:26px;text-align:center}.tri p{text-align:left;margin-bottom:12px}.tri>div{padding:28px;background:#fff;box-shadow:0 4px 20px #0001}.tri h3{color:var(--ouro2);margin-bottom:10px}
+.chp{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}.chp span{border:1px solid var(--ouro);padding:5px 12px;font-weight:600;font-size:.88rem}
+/* .terr = faixa escura "Terreno + construção" da home. */
+.terr{background:var(--grafite);color:#fff;text-align:center;padding:68px 20px}.terr h2{font-size:1.8rem;margin-bottom:12px}.terr p{max-width:640px;margin:0 auto 24px;font-size:1.1rem}.terr .go{display:inline-block}
+/* Card de corretor: .cor = caixa; .av = círculo com a foto ou a inicial do nome. */
+.cor{text-align:center;padding:26px}.av{width:96px;height:96px;border-radius:50%;margin:0 auto 12px;background:var(--grafite);color:var(--ouro);display:grid;place-items:center;font-weight:700;font-size:1.6rem;overflow:hidden}.av img{width:100%;height:100%;object-fit:cover}.cor small{display:block;color:var(--mudo)}
+/* ---------- 6. RODAPÉ E BOTÕES FLUTUANTES (HTML criado por layout() em js/app.js) ---------- */
+/* .ban = faixa decorativa acima do rodapé (trocar por uma foto, se desejado). */
+.ban{height:210px;background:linear-gradient(135deg,#1f1f1f 25%,#0b0b0b 25% 50%,#1a1a1a 50% 75%,#0b0b0b 75%)}
+/* Rodapé preto; .fg = 4 colunas (logo, dados da empresa, menu, social). */
+footer{background:#000;color:#fff;padding:50px 0 22px}
+.fg{display:grid;grid-template-columns:auto 2fr 1fr 1fr;gap:40px}.fg svg{width:110px;height:110px}.fg h4{font-weight:600;margin-bottom:14px;font-size:1.05rem}.fg a{text-decoration:underline;display:block;margin-bottom:9px}.fg p{margin-bottom:12px;font-size:.95rem}.cp{margin-top:36px;font-size:.9rem}
+/* .wfl = botão verde fixo do WhatsApp. .bub = balão "Estamos disponíveis" (some em 12 s). .err = aviso de erro de carregamento. */
+.wfl{position:fixed;right:22px;bottom:22px;width:56px;height:56px;border-radius:50%;background:#25d366;display:grid;place-items:center;z-index:50;box-shadow:0 4px 14px #0004}.wfl svg{width:30px;height:30px;fill:#fff}
+.bub{position:fixed;right:92px;bottom:34px;background:#fff;box-shadow:0 4px 18px #0003;padding:14px 18px;border-radius:6px;font-size:.9rem;color:#555;z-index:50}.bub button{position:absolute;top:-10px;right:-8px;width:22px;height:22px;border-radius:50%;border:0;background:#333;color:#fff;cursor:pointer}
+.err{background:#fde8e8;color:#8a1c1c;padding:12px;text-align:center}
+/* Celular/tablet (até 900px): campos em 2 colunas, blocos empilhados. */
+@media(max-width:900px){.logo img{height:56px}.cmp{grid-template-columns:1fr 1fr}.go{grid-column:1/-1}.tri,.fg{grid-template-columns:1fr}.busca{margin:-110px 14px 0;padding:20px}.bub{display:none}}
+
+/* ---------- LISTAGEM DE IMÓVEIS (imoveis.html) ---------- */
+/* .pghead = faixa escura com o título da página (também usada em Sobre, Contato etc.). */
+.pghead{background:linear-gradient(160deg,#262626,#0b0b0b);color:#fff;padding:46px 0 84px}.pghead h1{font-weight:500;font-size:2rem}.pghead p{opacity:.8}
+/* .busca.flt = a mesma busca da home, em versão da listagem (sobrepõe menos o topo; 3 colunas). */
+.busca.flt{margin:-48px auto 0}.flt .cmp{grid-template-columns:repeat(3,1fr)}
+/* .act = linha com o botão Pesquisar e o link "Limpar filtros" (.lk). */
+.act{grid-column:1/-1;display:flex;gap:20px;align-items:center}.lk{background:none;border:0;font:inherit;text-decoration:underline;cursor:pointer;color:var(--mudo)}
+/* .bar2 = barra "Ordenar por" acima dos cards. */
+.bar2{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:38px 0 22px;flex-wrap:wrap}.bar2 select{width:auto}
+/* .mais = botão "Ver mais imóveis". .vz = mensagem de "nenhum imóvel encontrado". */
+.mais{display:block;margin:36px auto 0}.vz{grid-column:1/-1;text-align:center;color:var(--mudo);padding:40px}
+@media(max-width:900px){.flt .cmp{grid-template-columns:1fr}.busca.flt{margin:-48px 14px 0}}
+/* ---------- 7. DETALHE DO IMÓVEL (imovel.html, gerado por js/imovel.js) ---------- */
+/* .dthead = título + localização à esquerda, botões à direita. */
+.dthead{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-start;margin:36px 0 22px}.dthead h1{font-size:1.7rem;font-weight:700;text-transform:uppercase;line-height:1.2}.dthead p{color:var(--mudo)}
+/* .acts/.bn = botões Compartilhar e Imprimir. */
+.acts{display:flex;gap:10px;flex-wrap:wrap}.bn{padding:11px 18px;font:inherit;font-weight:600;border:1px solid var(--linha);background:#fff;cursor:pointer;color:var(--texto)}.bn.wa{background:#0a8f6a;color:#fff;border-color:#0a8f6a}.bn.im{background:var(--ouro);color:#fff;border-color:var(--ouro)}
+/* .gal = galeria: foto grande à esquerda (.big) e duas menores à direita. */
+.gal{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:210px 210px;gap:10px}.gal .big{grid-row:1/3}
+/* .gi = cada foto da galeria (botão que abre em tela cheia). */
+.gi{position:relative;display:grid;place-items:center;border:0;padding:0;overflow:hidden;background:linear-gradient(135deg,#e7e2d6,#cfc7b4);color:#a89c80;cursor:pointer}.gi img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.gi svg{width:64px;height:64px}
+/* .cnt2 = "N fotos". .mf = camada "Mais fotos" sobre a última miniatura. */
+.cnt2{position:absolute;left:12px;bottom:52px;background:#000b;color:#fff;font-size:.8rem;font-weight:600;padding:7px 11px;border-radius:4px}.mf{position:absolute;inset:0;background:#000a;color:#fff;display:grid;place-items:center;font-weight:700}
+/* .sum = faixa de resumo: valor, tipo e localização. */
+.sum{display:flex;gap:46px;flex-wrap:wrap;margin:30px 0;padding-bottom:26px;border-bottom:1px solid var(--linha)}.sum small{display:block;color:var(--mudo)}.sum b{font-size:1.1rem}.sum .pr{font-size:1.9rem;color:var(--ouro2);margin:0}
+/* .cols = duas colunas: ficha/descrição à esquerda e cartão do corretor à direita. */
+.cols{display:grid;grid-template-columns:1fr 340px;gap:40px;align-items:start}.cols h2{font-size:1.25rem;margin:0 0 14px}
+/* .fic = tabela "Ficha do imóvel" com linhas alternadas. .dsc = descrição. */
+.fic{margin-bottom:34px}.fic>div{display:flex;justify-content:space-between;gap:12px;padding:11px 16px}.fic>div:nth-child(odd){background:#f8f4ea}.dsc{margin-bottom:34px;color:#444}
+/* .side/.sc = cartão lateral fixo com preço, corretor e botão de WhatsApp. */
+.side{position:sticky;top:20px}.sc{border:1px solid var(--linha);padding:26px;text-align:center;box-shadow:0 4px 20px #0001}.sc>small{color:var(--mudo)}.sc .pr{font-size:1.6rem;margin:4px 0 18px}.sc h3{margin-top:4px}.sc .go{display:block;margin-top:16px;text-align:center}.go.wa{background:#1fa855}
+/* .rel = seção "Imóveis semelhantes". .nf = mensagem "Imóvel não encontrado". */
+.rel{padding:60px 0 70px}.nf{text-align:center;padding:90px 20px}.nf .go{display:inline-block;margin-top:18px}
+/* .lb = galeria em tela cheia (lightbox): fundo escuro, setas e botão fechar. */
+.lb{position:fixed;inset:0;background:#000e;display:grid;place-items:center;z-index:100}.lb img{max-width:88vw;max-height:84vh}.lb button{position:absolute;background:#0008;color:#fff;border:0;font-size:2rem;width:48px;height:48px;cursor:pointer}.lb .x{top:18px;right:18px}.lb .pv{left:18px}.lb .nx{right:18px}
+/* Celular: a galeria vira uma foto só e o cartão do corretor desce para baixo do conteúdo. */
+@media(max-width:900px){.gal{grid-template-columns:1fr;grid-template-rows:260px}.gal .big{grid-row:auto}.gal .gi:not(.big){display:none}.cols{grid-template-columns:1fr}.side{position:static}}
+/* Ao imprimir: esconde menu, rodapé, botões e chat. */
+@media print{.top,#ftr,.wfl,.bub,.acts,.sc .go,.rel,.lb{display:none!important}}
+/* ---------- 8. PÁGINAS INSTITUCIONAIS (sobre, contato, corretores, terreno) E AJUSTES ---------- */
+/* Ajuste: o "/mês" fica ao lado do preço na faixa de resumo. */
+.sum .pr small{display:inline}
+/* Caixa de texto grande (textarea) com o mesmo visual dos outros campos. */
+textarea{width:100%;font:inherit;padding:12px;border:1px solid var(--linha);background:#fff;color:var(--texto);resize:vertical}textarea:focus{outline:2px solid var(--ouro);border-color:transparent}
+/* .pg = área de conteúdo dessas páginas. */
+.pg{padding-top:50px;padding-bottom:80px}.pg h2{font-size:1.4rem;margin-bottom:14px}.pg p{margin-bottom:12px}
+/* .two = duas colunas lado a lado (texto + formulário). */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+/* .cts/.ct = cartões de contato (WhatsApp, Instagram, endereço). */
+.cts{display:grid;gap:14px}.ct{display:block;border:1px solid var(--linha);padding:18px 22px;color:var(--mudo);box-shadow:0 4px 20px #0001}.ct:hover{border-color:var(--ouro)}.ct b{display:block;color:var(--texto);font-size:1.1rem}
+/* .fm = caixa cinza do formulário (contato e terreno + construção). */
+.fm{display:grid;gap:14px;background:var(--cinza);padding:28px}.fm h2{margin:0}.fm .go{justify-self:start}
+/* Celular: as duas colunas viram uma. */
+@media(max-width:900px){.two{grid-template-columns:1fr}}
+/* ---------- 9. CHATBOT (HTML criado por js/chat.js) ---------- */
+/* .cbtn = botão redondo que abre o chat (fica acima do botão do WhatsApp). */
+.cbtn{position:fixed;right:22px;bottom:90px;width:56px;height:56px;border-radius:50%;background:#0b0b0b;border:2px solid var(--ouro);display:grid;place-items:center;cursor:pointer;z-index:50;box-shadow:0 4px 14px #0005}.cbtn svg{width:26px;height:26px;fill:var(--ouro)}.cbtn:hover{background:#1c1c1c}
+/* .cbox = janela do chat (fixa no canto, acima dos botões). */
+.cbox{position:fixed;right:22px;bottom:160px;width:360px;max-width:calc(100vw - 24px);height:min(520px,calc(100vh - 180px));background:#fff;box-shadow:0 12px 40px #0006;display:flex;flex-direction:column;z-index:60;border-radius:8px;overflow:hidden}.cbox[hidden]{display:none}
+/* Cabeçalho preto da janela, com o nome da empresa e o botão fechar. */
+.cbox header{background:#0b0b0b;color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}.cbox header small{display:block;color:var(--ouro);font-size:.78rem}.cbox header button{background:none;border:0;color:#fff;font-size:1.6rem;cursor:pointer;line-height:1}
+/* .cmsg = área rolável das mensagens. */
+.cmsg{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:#f7f7f7}
+/* .mg = balão de mensagem: .b = do assistente (branco), .u = do cliente (dourado), .typing = "digitando...". */
+.mg{max-width:85%;padding:10px 14px;border-radius:14px;font-size:.93rem;white-space:pre-wrap}.mg.b{background:#fff;align-self:flex-start;box-shadow:0 1px 4px #0001}.mg.u{background:var(--ouro);color:#fff;align-self:flex-end}.mg.typing{opacity:.6}
+/* .cls/.cmi = mini-cartões dos imóveis encontrados dentro do chat. */
+.cls{display:grid;gap:8px;align-self:stretch}.cmi{display:block;background:#fff;border-left:3px solid var(--ouro);padding:10px 12px;box-shadow:0 1px 4px #0001;font-size:.88rem}.cmi b{display:block}.cmi span{color:var(--mudo);display:block}.cmi em{font-style:normal;font-weight:700;color:#3a2a05}
+/* .copt = botões de resposta rápida (pílulas douradas). */
+.copt{display:flex;flex-wrap:wrap;gap:8px;padding:10px 14px;background:#f7f7f7;max-height:45%;overflow-y:auto;flex-shrink:0}.copt:empty{display:none}.copt button{border:1px solid var(--ouro);background:#fff;color:var(--ouro2);padding:7px 12px;font:inherit;font-size:.86rem;font-weight:600;cursor:pointer;border-radius:99px}.copt button:hover{background:var(--ouro);color:#fff}
+/* Celular: a janela ocupa quase toda a largura. */
+@media(max-width:600px){.cbox{right:12px;bottom:150px}}
+/* Ao imprimir: esconde o chat. */
+@media print{.cbtn,.cbox{display:none!important}}
+
+/* Endereço clicável que abre o mapa/GPS (função mapa() em js/app.js): usado no rodapé, em Sobre e em Contato. */
+.end{display:inline-block;padding:4px 0;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}.end:hover{color:var(--ouro)}
+.gps{display:block;font-size:.82rem;opacity:.85;margin-top:2px;font-weight:400;line-height:1.9}.gps a{display:inline;margin:0;padding:6px 3px;text-decoration:underline}.fg .gps a{display:inline;margin:0}.gps a:hover{color:var(--ouro)}
+
+/* Banner com FOTO escolhida no painel (classe "foto" posta pelo app.js): a camada escura (::before) substitui os
+   triângulos decorativos. O nível de escurecimento vem da variável --hero-escuro (0 a 0.85), definida no painel. */
+.hero.foto::before{background:rgba(0,0,0,var(--hero-escuro,.55))}
+
+/* Botões de idioma PT | EN | ES no topo (criados por layout() em js/app.js; tradução em js/i18n.js). */
+.lang{display:flex;gap:4px;margin-right:10px}.lang button{width:34px;height:34px;background:#333;color:#fff;border:0;border-radius:3px;font:inherit;font-size:.78rem;font-weight:700;cursor:pointer}.lang button:hover{background:#444}.lang button.on{background:var(--ouro);color:#1b1405}
+@media(max-width:600px){.lang{margin-right:4px}.lang button{width:30px;height:30px}}

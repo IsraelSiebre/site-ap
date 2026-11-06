@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/layout :: head}"></head>
+<body class="adm">
+<div id="app"><div class="shell">
+  <aside th:replace="~{admin/layout :: sidebar}"></aside>
+  <main id="mn">
+    <div class="tb"><h1>Imóveis <small th:text="'(' + ${#lists.size(imoveis)} + ')'"></small></h1><form method="get" th:action="@{/admin/imoveis/novo}"><button class="go" id="novo">Novo imóvel</button></form></div>
+    <div class="tw"><table><thead><tr><th>Foto</th><th>Tipo</th><th>Negócio</th><th>Valor</th><th>Localização</th><th>Corretor</th><th></th></tr></thead>
+      <tbody><tr th:each="x : ${imoveis}">
+        <td><img th:if="${!#lists.isEmpty(x.fotos)}" class="th" th:src="${x.fotos[0]}" alt=""><th:block th:if="${#lists.isEmpty(x.fotos)}">—</th:block></td>
+        <td th:text="${x.tipo}"></td><td th:text="${x.aquisicao == 'aluguel' ? 'Aluguel' : 'Venda'}"></td>
+        <td th:text="${x.valor == null or x.valor.signum() == 0 ? 'Sob consulta' : 'R$ ' + #numbers.formatDecimal(x.valor, 1, 'POINT', 2, 'COMMA')}"></td>
+        <td th:text="${(#strings.isEmpty(x.localizacao.bairro) ? '' : x.localizacao.bairro + ' - ') + x.localizacao.cidade}"></td>
+        <td th:text="${x.corretor == null ? '' : x.corretor.nome}"></td>
+        <td class="ac"><form method="get" th:action="@{/admin/imoveis/{id}/editar(id=${x.id})}" style="display:inline"><button>Editar</button></form><form method="post" th:action="@{/admin/imoveis/{id}/excluir(id=${x.id})}" data-confirm="Excluir? Esta ação não pode ser desfeita." style="display:inline"><button class="rd">Excluir</button></form></td>
+      </tr><tr th:if="${#lists.isEmpty(imoveis)}"><td colspan="7">Nenhum imóvel cadastrado.</td></tr></tbody>
+    </table></div>
+  </main>
+</div></div>
+<div class="md" th:if="${imovel != null}" th:attr="data-close-url=@{/admin/imoveis}"><div class="mb">
+  <form id="fi" method="post" enctype="multipart/form-data" th:object="${imovel}" th:action="${editId == null} ? @{/admin/imoveis} : @{/admin/imoveis/{id}(id=${editId})}">
+    <h2 th:text="${editId == null ? 'Novo imóvel' : 'Editar imóvel'}"></h2>
+    <div th:replace="~{admin/layout :: errors}"></div>
+    <div class="fg2">
+      <div><label for="aq">Negócio</label><select id="aq" th:field="*{aquisicao}"><option value="compra">Compra</option><option value="aluguel">Aluguel</option></select></div>
+      <div><label for="tp">Tipo</label><select id="tp" th:field="*{tipo}"><option value="casa">Casa</option><option value="terreno">Terreno</option><option value="apartamento">Apartamento</option></select></div>
+      <div><label for="valor">Valor (R$)</label><input id="valor" th:field="*{valor}" type="number" min="0" step="0.01" placeholder="vazio ou 0 = sob consulta"></div>
+      <div><label for="corretorId">Corretor responsável</label><select id="corretorId" name="corretorId"><option value="">Selecione</option><option th:each="c : ${corretores}" th:value="${c.id}" th:text="${c.nome}" th:selected="${c.id == corretorId}"></option></select></div>
+      <div><label for="cidade">Cidade</label><input id="cidade" th:field="*{localizacao.cidade}" required></div>
+      <div><label for="bairro">Bairro</label><input id="bairro" th:field="*{localizacao.bairro}"></div>
+      <div class="w2"><label for="endereco">Endereço (opcional)</label><input id="endereco" th:field="*{localizacao.endereco}"></div>
+      <div><label for="quartos">Quartos</label><input id="quartos" th:field="*{quartos}" type="number" min="0"></div>
+      <div><label for="banheiros">Banheiros</label><input id="banheiros" th:field="*{banheiros}" type="number" min="0"></div>
+      <div><label for="vagas">Vagas</label><input id="vagas" th:field="*{vagas}" type="number" min="0"></div>
+      <div><label for="areaM2">Área (m²)</label><input id="areaM2" th:field="*{areaM2}" type="number" min="0" step="0.01"></div>
+      <div class="w2"><label for="descricao">Descrição</label><textarea id="descricao" th:field="*{descricao}" rows="3"></textarea></div>
+    </div>
+    <label for="ff">Fotos (a primeira é a capa)</label><input type="file" id="ff" name="novasFotos" accept="image/jpeg,image/png,image/webp" multiple data-gallery>
+    <div class="ths" id="ths"><div class="tt" th:each="foto, status : *{fotos}" th:attr="data-existing=${foto}"><img th:src="${foto}" alt="Foto do imóvel"><input type="hidden" name="ordemFotos" th:value="'e:' + ${foto}"><span><th:block th:if="${status.first}">Capa</th:block><button th:unless="${status.first}" type="button" data-cover>Capa</button><button type="button" data-remove aria-label="Remover foto">×</button></span></div></div>
+    <div class="mf2"><button class="go" type="submit">Salvar</button><button type="button" class="lk" id="cx" th:attr="data-href=@{/admin/imoveis}">Cancelar</button></div>
+  </form>
+</div></div>
+<th:block th:replace="~{admin/layout :: messages}"></th:block>
+</body>
+</html>

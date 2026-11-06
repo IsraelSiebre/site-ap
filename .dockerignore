@@ -1,0 +1,8 @@
+# Envie ao daemon somente o necessário para o build, incluindo o seed e o wrapper.
+**
+!pom.xml
+!mvnw
+!.mvn
+!.mvn/**
+!src
+!src/**

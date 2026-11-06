@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/site :: head}"></head><body>
+<div th:replace="~{fragments/site :: header}"></div>
+<main>
+<div class="pghead"><div class="wrap"><h1>Imóveis</h1><p id="cnt" th:text="${total + (total == 1 ? ' imóvel encontrado' : ' imóveis encontrados')}"></p></div></div>
+<form class="busca flt" id="flt" action="/imoveis" method="get">
+  <div class="cmp">
+    <div><label for="aq">Negócio</label><select id="aq" name="aquisicao"><option value="">Selecione</option><option value="compra" th:selected="${filtros.aquisicao == 'compra'}">Comprar</option><option value="aluguel" th:selected="${filtros.aquisicao == 'aluguel'}">Alugar</option></select></div>
+    <div><label for="tp">Tipo do imóvel</label><select id="tp" name="tipo"><option value="">Selecione</option><option value="casa" th:selected="${filtros.tipo == 'casa'}">Casa</option><option value="terreno" th:selected="${filtros.tipo == 'terreno'}">Terreno</option><option value="apartamento" th:selected="${filtros.tipo == 'apartamento'}">Apartamento</option></select></div>
+    <div><label for="vmin">Valor mínimo</label><input id="vmin" name="valorMin" inputmode="decimal" placeholder="R$ 0,00" th:value="${filtros.valorMin}"></div>
+    <div><label for="vmax">Valor máximo</label><input id="vmax" name="valorMax" inputmode="decimal" placeholder="R$ 0,00" th:value="${filtros.valorMax}"></div>
+    <div><label for="loc">Cidade e bairros</label><select id="loc" name="loc"><option value="">Selecione</option><option th:each="local : ${localidades}" th:value="${local}" th:selected="${local == localSelecionado}" th:text="${#strings.replace(local, '|', ' - ').replaceAll(' - $', '')}"></option><option th:if="${!#strings.isEmpty(localSelecionado) &amp;&amp; !#lists.contains(localidades, localSelecionado)}" th:value="${localSelecionado}" th:text="${#strings.replace(localSelecionado, '|', ' - ').replaceAll(' - $', '')}" selected></option></select></div>
+    <div class="act"><button class="go" type="submit">Pesquisar</button><button class="lk" type="button" id="lmp">Limpar filtros</button></div>
+  </div>
+</form>
+<section class="wrap" style="padding-bottom:70px">
+  <div class="bar2"><span></span><div><label for="ord" style="display:inline;margin-right:8px">Ordenar por</label><select id="ord" name="ord" form="flt"><option value="">Padrão</option><option value="min" th:selected="${filtros.ord == 'min'}">Menor valor</option><option value="max" th:selected="${filtros.ord == 'max'}">Maior valor</option></select></div></div>
+  <div class="grid" id="res"><th:block th:each="x : ${imoveis}"><article th:replace="~{fragments/site :: card(${x})}"></article></th:block><p class="vz" th:if="${#lists.isEmpty(imoveis)}">Nenhum imóvel encontrado com esses filtros.</p></div>
+  <a class="go mais" id="mais" th:if="${temMais}" th:href="${maisUrl}" style="width:max-content">Ver mais imóveis</a>
+</section>
+</main>
+<div th:replace="~{fragments/site :: footer}"></div><th:block th:replace="~{fragments/site :: scripts}"/>
+</body></html>

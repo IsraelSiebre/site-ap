@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/site :: head}"></head>
+<body class="home">
+<div th:replace="~{fragments/site :: header}"></div>
+<main>
+<section class="hero" th:classappend="${!#strings.isEmpty(view.image(inst.bannerFundo))} ? 'foto'" th:style="${view.heroStyle(inst)}">
+  <h1>Encontre o seu lar perfeito</h1>
+  <div class="pills" id="pills"><a th:href="${view.instagram(inst.instagram)}" target="_blank" rel="noopener" th:text="${inst.instagram}"></a><a th:href="${view.wa(inst.whatsapp)}" target="_blank" rel="noopener" th:text="${view.phone(inst.whatsapp)}"></a></div>
+</section>
+<form class="busca" id="busca" action="/imoveis" method="get">
+  <div class="cmp">
+    <div><label for="aq">Negócio</label><select id="aq" name="aquisicao"><option value="">Selecione</option><option value="compra">Comprar</option><option value="aluguel">Alugar</option></select></div>
+    <div><label for="tp">Tipo do imóvel</label><select id="tp" name="tipo"><option value="">Selecione</option><option value="casa">Casa</option><option value="terreno">Terreno</option><option value="apartamento">Apartamento</option></select></div>
+    <div><label for="vmin">Valor mínimo</label><input id="vmin" name="valorMin" inputmode="decimal" placeholder="R$ 0,00"></div>
+    <div><label for="vmax">Valor máximo</label><input id="vmax" name="valorMax" inputmode="decimal" placeholder="R$ 0,00"></div>
+    <div><label for="fLoc">Cidade e bairros</label><select id="fLoc" name="loc"><option value="">Selecione</option><option th:each="local : ${localidades}" th:value="${local}" th:text="${#strings.replace(local, '|', ' - ').replaceAll(' - $', '')}"></option></select></div>
+    <button class="go" type="submit">Pesquisar</button>
+  </div>
+  <div class="ult" id="ult"></div>
+</form>
+<section class="s"><div class="wrap"><h2 class="t">Imóveis em destaque</h2><div class="grid" id="dest"><th:block th:each="x : ${destaques}"><article th:replace="~{fragments/site :: card(${x})}"></article></th:block><p th:if="${#lists.isEmpty(destaques)}">Nenhum imóvel cadastrado ainda.</p></div></div></section>
+<section class="s" style="background:#fafafa"><div class="wrap"><h2 class="t">Quem somos</h2><div class="tri" id="sobre"><th:block th:replace="~{fragments/site :: tri(true)}"/></div></div></section>
+<section class="terr" id="terr"><h2>Terreno + construção</h2><p th:text="${inst.terrenoConstrucao.texto}" data-no-t></p><a class="go" th:href="${view.wa(view.terrainPhone(inst), 'Olá! Tenho um terreno e quero conversar sobre construção.')}" target="_blank" rel="noopener">Falar com a gente</a></section>
+<section class="s"><div class="wrap"><h2 class="t">Nossos corretores</h2><div class="grid" id="cors"><th:block th:each="c : ${corretores}"><article th:replace="~{fragments/site :: corretor(${c})}"></article></th:block></div></div></section>
+</main>
+<div th:replace="~{fragments/site :: footer}"></div><th:block th:replace="~{fragments/site :: scripts}"/>
+</body></html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/layout :: head}"></head>
+<body class="adm">
+<div id="app"><div class="shell">
+  <aside th:replace="~{admin/layout :: sidebar}"></aside>
+  <main id="mn">
+    <div class="tb"><h1>Corretores <small th:text="'(' + ${#lists.size(corretores)} + ')'"></small></h1><form method="get" th:action="@{/admin/corretores/novo}"><button class="go" id="novo">Novo corretor</button></form></div>
+    <div class="tw"><table><thead><tr><th>Foto</th><th>Nome</th><th>CRECI</th><th>WhatsApp</th><th></th></tr></thead><tbody>
+      <tr th:each="c : ${corretores}"><td><img class="th" th:if="${!#strings.isEmpty(c.foto)}" th:src="${c.foto}" alt=""><th:block th:if="${#strings.isEmpty(c.foto)}">—</th:block></td><td th:text="${c.nome}"></td><td th:text="${c.creci}"></td><td th:text="${c.whatsapp}"></td>
+        <td class="ac"><form method="get" th:action="@{/admin/corretores/{id}/editar(id=${c.id})}" style="display:inline"><button>Editar</button></form><form method="post" th:action="@{/admin/corretores/{id}/excluir(id=${c.id})}" data-confirm="Excluir? Esta ação não pode ser desfeita." style="display:inline"><button class="rd">Excluir</button></form></td></tr>
+      <tr th:if="${#lists.isEmpty(corretores)}"><td colspan="5">Nenhum corretor cadastrado.</td></tr>
+    </tbody></table></div>
+  </main>
+</div></div>
+<div class="md" th:if="${corretor != null}" th:attr="data-close-url=@{/admin/corretores}"><div class="mb">
+  <form id="fi" method="post" enctype="multipart/form-data" th:object="${corretor}" th:action="${editId == null} ? @{/admin/corretores} : @{/admin/corretores/{id}(id=${editId})}">
+    <h2 th:text="${editId == null ? 'Novo corretor' : 'Editar corretor'}"></h2>
+    <div th:replace="~{admin/layout :: errors}"></div>
+    <label for="nome">Nome</label><input id="nome" th:field="*{nome}" required>
+    <label for="creci">CRECI</label><input id="creci" th:field="*{creci}">
+    <label for="whatsapp">WhatsApp (com DDI e DDD)</label><input id="whatsapp" th:field="*{whatsapp}" inputmode="numeric" placeholder="5519999999999">
+    <label for="ff">Foto</label><input type="file" id="ff" name="novaFoto" accept="image/jpeg,image/png,image/webp" data-single-photo>
+    <input type="hidden" name="removerFoto" id="removerFoto" value="false">
+    <div class="ths" id="ths"><div class="tt" th:if="${!#strings.isEmpty(corretor.foto)}"><img th:src="*{foto}" alt="Foto do corretor"><span>Foto<button type="button" data-single-remove aria-label="Remover foto">×</button></span></div></div>
+    <div class="mf2"><button class="go" type="submit">Salvar</button><button type="button" class="lk" id="cx" th:attr="data-href=@{/admin/corretores}">Cancelar</button></div>
+  </form>
+</div></div>
+<th:block th:replace="~{admin/layout :: messages}"></th:block>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/site :: head}"></head><body data-p="corretores">
+<div th:replace="~{fragments/site :: header}"></div>
+<main><div class="pghead"><div class="wrap"><h1>Corretores</h1><p id="sub">Conheça quem vai te atender</p></div></div><div class="wrap pg" id="pg"><div class="grid"><th:block th:each="c : ${corretores}"><article th:replace="~{fragments/site :: corretor(${c})}"></article></th:block><p th:if="${#lists.isEmpty(corretores)}">Nenhum corretor cadastrado ainda.</p></div></div></main>
+<div th:replace="~{fragments/site :: footer}"></div><th:block th:replace="~{fragments/site :: scripts}"/>
+</body></html>
