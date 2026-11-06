@@ -7,13 +7,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-    private final UploadService uploads;
-    public WebConfig(UploadService uploads) { this.uploads = uploads; }
+
+    @Value("${app.upload-dir}")
+    private String uploadDir;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        String path = Paths.get(uploadDir).toAbsolutePath().toUri().toString();
+
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations(uploads.getDirectory().toUri().toString())
+                .addResourceLocations(path)
                 .setCachePeriod(3600);
+
     }
 }
