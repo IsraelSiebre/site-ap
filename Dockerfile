@@ -8,9 +8,6 @@ RUN sed -i 's/\r$//' mvnw && chmod +x mvnw \
 
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
-RUN useradd --system --uid 10001 --create-home app \
-    && mkdir -p /app/data/uploads \
-    && chown -R app:app /app
 COPY --from=build --chown=app:app /build/target/imoveis-1.0.0.jar /app/app.jar
 USER app
 EXPOSE 8080

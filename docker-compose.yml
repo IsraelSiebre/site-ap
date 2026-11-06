@@ -2,39 +2,18 @@ services:
   app:
     build: .
     restart: unless-stopped
-    depends_on:
-      db:
-        condition: service_healthy
     environment:
       DATABASE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-imobiliaria}
       DATABASE_USERNAME: ${POSTGRES_USER:-imobiliaria}
       DATABASE_PASSWORD: ${POSTGRES_PASSWORD:?Defina POSTGRES_PASSWORD no arquivo .env}
       ADMIN_USER: ${ADMIN_USER:-admin}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Defina ADMIN_PASSWORD no arquivo .env}
-      UPLOAD_DIR: /app/data/uploads
+      UPLOAD_DIR: ${UPLOAD_DIR:-./site-ap-uploads}
       SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
     ports:
       - "${APP_PORT:-8080}:8080"
     volumes:
       - type: bind
-        source: ${UPLOAD_DIR:-../site-ap-uploads}
+        source: ${UPLOAD_DIR:-./site-ap-uploads}
         target: /app/data/uploads
 
-  db:
-    image: postgres:17-alpine
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-imobiliaria}
-      POSTGRES_USER: ${POSTGRES_USER:-imobiliaria}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Defina POSTGRES_PASSWORD no arquivo .env}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
-      interval: 5s
-      timeout: 5s
-      retries: 12
-      start_period: 30s
-
-volumes:
-  postgres_data:
