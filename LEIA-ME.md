@@ -18,13 +18,17 @@ docker compose up --build -d
 
 O site fica em `http://localhost:8080` e o painel em `http://localhost:8080/admin`. Use o `ADMIN_USER` e a senha definidos no `.env`. Altere `APP_PORT` se precisar de outra porta no computador. Para acompanhar a inicialização, execute `docker compose logs -f app`.
 
-O Compose inicia o PostgreSQL antes da aplicação e mantém o banco acessível apenas pela rede interna do Compose. Os volumes `postgres_data` e `uploads` preservam, respectivamente, os cadastros e as fotos mesmo quando os containers são recriados. `docker compose down` para e remove os containers sem apagar os volumes; `docker compose down -v` também apaga os dados dos dois volumes. Inclua os dois no procedimento de backup.
+O Compose inicia o PostgreSQL antes da aplicação e mantém o banco acessível apenas pela rede interna do Compose. O volume `postgres_data` preserva os cadastros; as imagens ficam na pasta do computador definida por `UPLOAD_DIR` no `.env` (por padrão, `../site-ap-uploads`, fora do projeto). O usuário do container (UID 10001) precisa ter permissão de escrita nessa pasta. `docker compose down` não apaga esses dados; `docker compose down -v` apaga o volume do banco, mas não a pasta de imagens. Inclua ambos no backup.
+
+Se uma instalação anterior usava o volume Docker `uploads`, copie seu conteúdo para a pasta configurada antes de iniciar a nova versão. Pare a aplicação durante a cópia e preserve os nomes dos arquivos; as URLs no banco continuam iguais. Não remova o volume antigo até conferir as fotos no site.
 
 O PostgreSQL é inicializado a partir dos dados originais na primeira execução. Ele é independente do arquivo H2 usado fora do Docker: cadastros e uploads já existentes no H2 não são migrados automaticamente. As variáveis `POSTGRES_DB`, `POSTGRES_USER` e `POSTGRES_PASSWORD` inicializam o banco apenas quando o volume está vazio; depois disso, mudar o `.env` não altera o usuário nem a senha existentes no PostgreSQL.
 
 ## Executar localmente sem Docker
 
 Instale um JDK 17 ou superior e configure `JAVA_HOME` para a pasta do JDK. O Maven Wrapper baixa Maven e dependências na primeira execução.
+
+A aplicação também lê o `.env` na raiz do projeto quando executada localmente. Configure `UPLOAD_DIR` com a pasta desejada; no Windows, use barras normais, por exemplo `C:/imobiliaria/fotos`. As variáveis de ambiente do sistema têm prioridade sobre o arquivo.
 
 No PowerShell, na raiz do projeto:
 
@@ -69,10 +73,10 @@ src/main/resources/
   data/seed.json  Dados originais importados na primeira inicialização
   application.properties
 src/test/         Testes de integração e do chatbot
-data/             Banco persistente e uploads da execução
+data/             Banco persistente da execução local
 Dockerfile        Build e execução da aplicação em container
 docker-compose.yml  Serviços da aplicação e do PostgreSQL
-.env.example      Exemplo de configuração do Compose
+.env.example      Exemplo de configuração
 ```
 
 Controllers recebem pedidos e preparam o modelo; serviços executam operações e validações; repositórios persistem entidades; Thymeleaf gera o HTML. Formulários administrativos usam POST e redirecionamento após salvar. Cadastros não usam `localStorage`, nem dependem de uma API JSON para montar páginas.
@@ -91,7 +95,7 @@ Controllers recebem pedidos e preparam o modelo; serviços executam operações 
 
 O banco padrão é H2 em arquivo: `data/imobiliaria.mv.db`, persistente entre reinícios. A primeira execução importa a empresa, os três corretores e os imóveis 101/102 originais; apagar cadastros não faz a carga inicial recriá-los.
 
-Uploads ficam em `data/uploads`, fora do JAR, publicados em `/uploads/`. São aceitos JPEG, PNG e WebP de até **10 MB por arquivo**, **100 MB por envio** e até **60 fotos por imóvel**. O servidor verifica o conteúdo real e limita dimensões a 12.000 pixels por lado e 40 megapixels. Cada novo upload é comprimido e armazenado em WebP, com nome aleatório. Imagens cadastradas anteriormente continuam disponíveis no formato original.
+Uploads de imóveis, corretores e banner ficam na pasta `UPLOAD_DIR`, fora do projeto por padrão, e são publicados em `/uploads/`. Ao mudar a pasta, copie para ela os arquivos existentes, inclusive os que estavam em `data/uploads`, para manter as imagens disponíveis. São aceitos JPEG, PNG e WebP de até **10 MB por arquivo**, **100 MB por envio** e até **60 fotos por imóvel**. O servidor verifica o conteúdo real e limita dimensões a 12.000 pixels por lado e 40 megapixels. Cada novo upload é comprimido e armazenado em WebP, com nome aleatório.
 
 Fotos são enviadas ao salvar. Remover uma imagem de um cadastro retira a referência; arquivos antigos não são apagados automaticamente do disco. Inclua **banco e uploads** nos backups. Pare a aplicação antes de copiar o arquivo H2 para obter uma cópia consistente.
 
@@ -111,11 +115,11 @@ O chatbot funciona **inteiramente no navegador**, em `src/main/resources/static/
 | `DATABASE_URL` | `jdbc:h2:file:./data/imobiliaria;DB_CLOSE_ON_EXIT=FALSE` |
 | `DATABASE_USERNAME` | `sa` |
 | `DATABASE_PASSWORD` | Vazia |
-| `UPLOAD_DIR` | `./data/uploads` |
+| `UPLOAD_DIR` | `../site-ap-uploads`; diretório das imagens no computador |
 | `SEED_ENABLED` | `true`; carga inicial dos dados existentes |
 | `SESSION_COOKIE_SECURE` | `false` para localhost; use `true` com HTTPS |
 
-Caminhos relativos usam o diretório de onde a aplicação é executada. Preserve esse diretório ou configure caminhos absolutos na instalação. A aplicação inclui os drivers H2 e PostgreSQL; no Compose, as variáveis do banco são configuradas automaticamente.
+Na execução local, caminhos relativos usam o diretório de onde a aplicação é executada; no Compose, são relativos à pasta do arquivo Compose. Preserve esse diretório ou configure caminhos absolutos na instalação. A aplicação inclui os drivers H2 e PostgreSQL; no Compose, as variáveis do banco são configuradas automaticamente.
 
 ## Testes
 

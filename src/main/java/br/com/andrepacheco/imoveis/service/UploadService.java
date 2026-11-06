@@ -36,7 +36,7 @@ public class UploadService {
     private static final float WEBP_QUALITY = 0.82f;
     private final Path directory;
 
-    public UploadService(@Value("${app.upload-dir:./data/uploads}") String directory) {
+    public UploadService(@Value("${app.upload-dir:../site-ap-uploads}") String directory) {
         this.directory = Path.of(directory).toAbsolutePath().normalize();
         try {
             Files.createDirectories(this.directory);
